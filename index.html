@@ -29,6 +29,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
 .nav-tabs { display: flex; gap: 4px; background: rgba(46,196,110,0.08); border: 1px solid var(--border); border-radius: 100px; padding: 4px; }
 .nav-tab { padding: 7px 14px; border-radius: 100px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; background: transparent; color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif; }
 .nav-tab.active { background: var(--green); color: var(--dark); }
+.nav-tabs.hidden { display: none; }
 
 /* VIEWS */
 .view { display: none; }
@@ -375,6 +376,20 @@ const DEFAULT_NUMBER = '27615861499';
 
 let customers = JSON.parse(localStorage.getItem('kleanbins_customers') || '[]');
 let currentFilter = 'all';
+
+// SECRET ADMIN URL — only show dashboard tab if ?admin is in the URL
+const isAdmin = window.location.search.includes('learnmorenetsaiAdmin');
+if (!isAdmin) {
+  document.querySelector('.nav-tabs').classList.add('hidden');
+} else {
+  // Auto open dashboard if ?admin in URL
+  document.querySelector('.nav-tabs').classList.remove('hidden');
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-dashboard').classList.add('active');
+  document.querySelectorAll('.nav-tab')[1].classList.add('active');
+  document.getElementById('lockScreen').classList.remove('hidden');
+}
 
 function getOwnerNumber() {
   return localStorage.getItem('kleanbins_owner_number') || DEFAULT_NUMBER;
