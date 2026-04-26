@@ -382,14 +382,16 @@ const isAdmin = window.location.search.includes('learnmorenetsaiAdmin');
 if (!isAdmin) {
   document.getElementById('lockScreen').classList.add('hidden');
   document.getElementById('navTabs').classList.add('hidden');
+  document.getElementById('view-dashboard').classList.remove('active');
   document.getElementById('view-signup').classList.add('active');
 } else {
   document.getElementById('navTabs').classList.remove('hidden');
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-signup').classList.remove('active');
   document.getElementById('view-dashboard').classList.add('active');
   document.querySelectorAll('.nav-tab')[1].classList.add('active');
+  document.querySelectorAll('.nav-tab')[0].classList.remove('active');
   document.getElementById('lockScreen').classList.remove('hidden');
+  renderDashboard();
 }
 
 function getOwnerNumber() {
@@ -564,7 +566,6 @@ function addCustomerFromModal() {
   document.getElementById('addAddress').value = '';
 }
 
-renderDashboard();
 </script>
 </body>
 </html>
