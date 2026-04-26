@@ -165,7 +165,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
 <body>
 
 <!-- LOCK SCREEN -->
-<div class="lock-screen" id="lockScreen">
+<div class="lock-screen hidden" id="lockScreen">
   <div class="lock-logo">
     <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="40" cy="40" r="38" fill="rgba(46,196,110,0.1)" stroke="#2ec46e" stroke-width="1.5"/>
@@ -377,12 +377,15 @@ const DEFAULT_NUMBER = '27615861499';
 let customers = JSON.parse(localStorage.getItem('kleanbins_customers') || '[]');
 let currentFilter = 'all';
 
-// SECRET ADMIN URL — only show dashboard tab if ?admin is in the URL
+// SECRET ADMIN URL — only show dashboard if ?learnmorenetsaiAdmin is in the URL
 const isAdmin = window.location.search.includes('learnmorenetsaiAdmin');
 if (!isAdmin) {
+  // Customer view — hide dashboard tab and lock screen completely
   document.querySelector('.nav-tabs').classList.add('hidden');
+  document.getElementById('lockScreen').classList.add('hidden');
+  document.getElementById('view-signup').classList.add('active');
 } else {
-  // Auto open dashboard if ?admin in URL
+  // Owner view — show dashboard tab and PIN screen
   document.querySelector('.nav-tabs').classList.remove('hidden');
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
