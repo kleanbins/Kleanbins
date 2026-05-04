@@ -214,9 +214,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
       <span class="word-bins">bins</span>
     </div>
   </div>
-  <div class="nav-tabs hidden" id="navTabs">
-    <button class="nav-tab active" onclick="switchView('signup', this)">Sign Up</button>
-    <button class="nav-tab" onclick="switchView('dashboard', this)">Dashboard</button>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" id="tabSignup" onclick="switchView('signup', this)">Sign Up</button>
+    <button class="nav-tab" id="tabDash" onclick="switchView('dashboard', this)">Dashboard</button>
   </div>
 </nav>
 
@@ -364,7 +364,7 @@ const OWNER_KEY = 'kleanbins_owner_number';
 let customers = [];
 let currentFilter = 'all';
 
-// ── Persistent storage helpers ──────────────────────────────────────────────
+// ── Storage helpers ──────────────────────────────────────────────────────────
 async function loadCustomers() {
   try {
     const result = await window.storage.get(STORAGE_KEY);
@@ -404,19 +404,16 @@ const isAdmin = window.location.search.includes('learnmorenetsaiAdmin');
 
 async function init() {
   await loadCustomers();
-
-  if (!isAdmin) {
-    document.getElementById('lockScreen').classList.add('hidden');
-    document.getElementById('navTabs').classList.add('hidden');
-  } else {
+  if (isAdmin) {
+    // Owner: show nav tabs and go straight to dashboard (behind PIN)
     document.getElementById('navTabs').classList.remove('hidden');
     document.getElementById('view-signup').classList.remove('active');
     document.getElementById('view-dashboard').classList.add('active');
-    document.querySelectorAll('.nav-tab')[1].classList.add('active');
-    document.querySelectorAll('.nav-tab')[0].classList.remove('active');
+    document.getElementById('tabDash').classList.add('active');
+    document.getElementById('tabSignup').classList.remove('active');
     document.getElementById('lockScreen').classList.remove('hidden');
-    renderDashboard();
   }
+  // Customers: nav tabs stay hidden, sign-up view stays active
 }
 
 init();
@@ -434,11 +431,12 @@ function getInitials(name) {
 }
 
 // ── PIN ───────────────────────────────────────────────────────────────────────
-function checkPin() {
+async function checkPin() {
   const val = document.getElementById('pinInput').value;
   if (val === PIN) {
     document.getElementById('lockScreen').classList.add('hidden');
-    renderDashboard();
+    // Load fresh data AFTER pin is entered, then render
+    await renderDashboard();
   } else {
     document.getElementById('pinError').classList.add('show');
     document.getElementById('pinInput').value = '';
@@ -478,6 +476,9 @@ async function submitSignup() {
   const btn = document.getElementById('signupBtn');
   btn.disabled = true;
   btn.innerHTML = '<span class="loading-spinner"></span>Saving...';
+
+  // Reload latest list first to avoid overwriting other sign-ups
+  await loadCustomers();
 
   const customer = {
     id: Date.now(),
@@ -546,13 +547,13 @@ function filterCustomers(filter, btn) {
 
 // ── Render ────────────────────────────────────────────────────────────────────
 async function renderDashboard() {
-  await loadCustomers(); // always refresh from storage
+  await loadCustomers(); // always pull fresh from storage
   const monthly = customers.filter(c => c.plan === 'monthly');
   document.getElementById('statTotal').textContent = customers.length;
   document.getElementById('statMonthly').textContent = monthly.length;
   document.getElementById('statRevenue').textContent = 'R' + (monthly.length * 60);
   document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-ZA', { weekday:'long', day:'numeric', month:'long' });
-  updateCurrentNumDisplay();
+  await updateCurrentNumDisplay();
   renderCustomerList();
 }
 
@@ -596,6 +597,7 @@ async function addCustomerFromModal() {
   btn.textContent = 'Saving...';
   btn.disabled = true;
 
+  await loadCustomers(); // reload before pushing to avoid overwrite
   customers.push({
     id: Date.now(),
     name,
