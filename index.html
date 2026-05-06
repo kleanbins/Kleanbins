@@ -356,46 +356,51 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
 </div>
 
 <script>
-const PIN = '1234';
+const PIN = '1978';
 const DEFAULT_NUMBER = '27615861499';
-const STORAGE_KEY = 'kleanbins_customers';
-const OWNER_KEY = 'kleanbins_owner_number';
+const STORAGE_KEY = 'kleanbins_customers'; // Not used now
+const OWNER_KEY = 'kleanbins_owner_number'; // Keep for local fallback if needed
 
 let customers = [];
 let currentFilter = 'all';
 
-// ── Storage helpers ──────────────────────────────────────────────────────────
+// Initialize Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getFirestore, collection, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAEjHaA2kVjrNWo_Shq3bUBxpvkmh7ZgMY",
+  authDomain: "kleanbins.firebaseapp.com",
+  projectId: "kleanbins",
+  storageBucket: "kleanbins.firebasestorage.app",
+  messagingSenderId: "277040961444",
+  appId: "1:277040961444:web:fa25a0f63b30db0a0e5331",
+  measurementId: "G-8VFRT66WSY"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Load customers from Firestore
 async function loadCustomers() {
   try {
-    const result = await window.storage.get(STORAGE_KEY);
-    customers = result ? JSON.parse(result.value) : [];
+    const querySnapshot = await getDocs(collection(db, 'customers'));
+    customers = [];
+    querySnapshot.forEach((docSnap) => {
+      customers.push({ id: docSnap.id, ...docSnap.data() });
+    });
   } catch (e) {
+    console.error('Error loading customers:', e);
     customers = [];
   }
 }
 
-async function saveCustomers() {
+// Save a customer to Firestore
+async function saveCustomer(customer) {
   try {
-    await window.storage.set(STORAGE_KEY, JSON.stringify(customers));
+    await setDoc(doc(db, 'customers', customer.id.toString()), customer);
   } catch (e) {
-    console.error('Failed to save customers:', e);
-  }
-}
-
-async function loadOwnerNumber() {
-  try {
-    const result = await window.storage.get(OWNER_KEY);
-    return result ? result.value : DEFAULT_NUMBER;
-  } catch (e) {
-    return DEFAULT_NUMBER;
-  }
-}
-
-async function persistOwnerNumber(num) {
-  try {
-    await window.storage.set(OWNER_KEY, num);
-  } catch (e) {
-    console.error('Failed to save owner number:', e);
+    console.error('Error saving customer:', e);
   }
 }
 
@@ -405,7 +410,6 @@ const isAdmin = window.location.search.includes('learnmorenetsaiAdmin');
 async function init() {
   await loadCustomers();
   if (isAdmin) {
-    // Owner: show nav tabs and go straight to dashboard (behind PIN)
     document.getElementById('navTabs').classList.remove('hidden');
     document.getElementById('view-signup').classList.remove('active');
     document.getElementById('view-dashboard').classList.add('active');
@@ -413,9 +417,7 @@ async function init() {
     document.getElementById('tabSignup').classList.remove('active');
     document.getElementById('lockScreen').classList.remove('hidden');
   }
-  // Customers: nav tabs stay hidden, sign-up view stays active
 }
-
 init();
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -435,7 +437,6 @@ async function checkPin() {
   const val = document.getElementById('pinInput').value;
   if (val === PIN) {
     document.getElementById('lockScreen').classList.add('hidden');
-    // Load fresh data AFTER pin is entered, then render
     await renderDashboard();
   } else {
     document.getElementById('pinError').classList.add('show');
@@ -477,11 +478,10 @@ async function submitSignup() {
   btn.disabled = true;
   btn.innerHTML = '<span class="loading-spinner"></span>Saving...';
 
-  // Reload latest list first to avoid overwriting other sign-ups
   await loadCustomers();
 
   const customer = {
-    id: Date.now(),
+    id: Date.now().toString(),
     name,
     phone: phone.replace(/\D/g,''),
     address: house + ' ' + street,
@@ -490,7 +490,7 @@ async function submitSignup() {
   };
 
   customers.push(customer);
-  await saveCustomers();
+  await saveCustomer(customer);
 
   document.getElementById('signupFormContent').classList.add('hide');
   document.getElementById('successState').classList.add('show');
@@ -512,6 +512,25 @@ async function saveOwnerNumber() {
   const toast = document.getElementById('saveToast');
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+async function loadOwnerNumber() {
+  // fallback to localStorage if needed
+  try {
+    const result = await window.storage.get(OWNER_KEY);
+    return result ? result.value : DEFAULT_NUMBER;
+  } catch (e) {
+    return DEFAULT_NUMBER;
+  }
+}
+
+async function persistOwnerNumber(num) {
+  try {
+    await window.storage.set(OWNER_KEY, num);
+  } catch (e) {
+    // fallback to localStorage if window.storage isn't available
+    localStorage.setItem(OWNER_KEY, num);
+  }
 }
 
 async function updateCurrentNumDisplay() {
@@ -537,7 +556,7 @@ async function notifyStrike() {
   window.open(`https://wa.me/${toIntlFormat(c.phone)}?text=${msg}`, '_blank');
 }
 
-// ── Filter ────────────────────────────────────────────────────────────────────
+// ── Filter ────────────────────────────────────────────────────────────────
 function filterCustomers(filter, btn) {
   currentFilter = filter;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -545,7 +564,7 @@ function filterCustomers(filter, btn) {
   renderCustomerList();
 }
 
-// ── Render ────────────────────────────────────────────────────────────────────
+// ── Render ────────────────────────────────────────────────────────────────
 async function renderDashboard() {
   await loadCustomers(); // always pull fresh from storage
   const monthly = customers.filter(c => c.plan === 'monthly');
@@ -597,17 +616,20 @@ async function addCustomerFromModal() {
   btn.textContent = 'Saving...';
   btn.disabled = true;
 
-  await loadCustomers(); // reload before pushing to avoid overwrite
-  customers.push({
-    id: Date.now(),
+  await loadCustomers();
+
+  const newCustomer = {
+    id: Date.now().toString(),
     name,
     phone: phone.replace(/\D/g,''),
     address,
     plan: 'monthly',
     date: new Date().toLocaleDateString('en-ZA')
-  });
+  };
 
-  await saveCustomers();
+  customers.push(newCustomer);
+  await saveCustomer(newCustomer);
+
   closeModal();
   renderDashboard();
 
