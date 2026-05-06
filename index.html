@@ -235,30 +235,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
   </div>
 </nav>
 
-<!-- ══════════════════════════════════════════
-     ADMIN NAV (with badge, shown in admin mode)
-══════════════════════════════════════════ -->
-<nav class="nav hidden" id="adminNav">
-  <div class="nav-logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="7" y="15" width="24" height="20" rx="4" fill="#2ec46e" opacity="0.85"/>
-        <rect x="5" y="10" width="28" height="8" rx="3.5" fill="#3dd47e"/>
-        <rect x="13" y="4" width="12" height="9" rx="3" fill="none" stroke="#2ec46e" stroke-width="2"/>
-        <rect x="10" y="19" width="4" height="11" rx="2" fill="#05291c" opacity="0.55"/>
-        <rect x="17" y="19" width="4" height="11" rx="2" fill="#05291c" opacity="0.55"/>
-        <rect x="24" y="19" width="4" height="11" rx="2" fill="#05291c" opacity="0.55"/>
-        <circle cx="30" cy="8" r="6" fill="#021a11" stroke="#2ec46e" stroke-width="1.5"/>
-        <path d="M27.5 8 L29.5 10 L33 6.5" stroke="#2ec46e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-    <div class="nav-wordmark">
-      <span class="word-klean">Klean</span>
-      <span class="word-bins">bins</span>
-    </div>
-  </div>
-  <div class="admin-badge">Owner Dashboard</div>
-</nav>
 
 <!-- ══════════════════════════════════════════
      SIGNUP VIEW (customers only)
@@ -445,15 +421,17 @@ window.addCustomerFromModal = addCustomerFromModal;
 // ─── init ─────────────────────────────────────────────────────────
 async function init() {
   if (isAdmin) {
-    // Show admin nav, hide customer nav
-    document.getElementById('customerNav').classList.add('hidden');
-    document.getElementById('adminNav').classList.remove('hidden');
-    // Show dashboard immediately, lock screen on top
+    // Add owner badge to the single nav
+    const badge = document.createElement('div');
+    badge.className = 'admin-badge';
+    badge.textContent = 'Owner Dashboard';
+    document.getElementById('customerNav').appendChild(badge);
+    // Show dashboard, lock screen on top
     document.getElementById('view-signup').classList.remove('active');
     document.getElementById('view-dashboard').classList.add('active');
     document.getElementById('lockScreen').classList.remove('hidden');
   } else {
-    // Pure customer mode — only signup visible, no dashboard tab anywhere
+    // Pure customer mode — only signup visible
     document.getElementById('view-signup').classList.add('active');
   }
 }
