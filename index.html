@@ -428,14 +428,17 @@ async function persistOwnerNumber(num) {
 const isAdmin = window.location.search.includes('learnmorenetsaiAdmin');
 
 async function init() {
-  changeBins(0); // init price display
   if (isAdmin) {
+    // Owner: show dashboard behind PIN, hide signup
     document.getElementById('navTabs').classList.remove('hidden');
     document.getElementById('view-signup').classList.remove('active');
     document.getElementById('view-dashboard').classList.add('active');
     document.getElementById('tabDash').classList.add('active');
     document.getElementById('tabSignup').classList.remove('active');
     document.getElementById('lockScreen').classList.remove('hidden');
+  } else {
+    // Customer: show signup form and init bin counter
+    changeBins(0);
   }
 }
 
