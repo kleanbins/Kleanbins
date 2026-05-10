@@ -17,21 +17,22 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-height: 100vh; color: #fff; }
 
-/* ── NAV (only shown in admin mode) ── */
 .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); background: rgba(2,26,17,0.97); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
 .nav-logo { display: flex; align-items: center; gap: 10px; }
-.logo-mark { width: 38px; height: 38px; flex-shrink: 0; }
+.logo-mark { width: 38px; height: 38px; position: relative; flex-shrink: 0; }
 .logo-mark svg { width: 38px; height: 38px; }
 .nav-wordmark { display: flex; flex-direction: column; line-height: 1; }
 .nav-wordmark .word-klean { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: #fff; letter-spacing: 3px; }
 .nav-wordmark .word-bins { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--green); letter-spacing: 3px; margin-top: -4px; }
-.admin-badge { font-size: 9px; background: rgba(46,196,110,0.15); border: 1px solid var(--border); color: var(--green); padding: 3px 10px; border-radius: 100px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; }
+.nav-wordmark .word-tagline { font-size: 8px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 1px; }
+.nav-tabs { display: flex; gap: 4px; background: rgba(46,196,110,0.08); border: 1px solid var(--border); border-radius: 100px; padding: 4px; }
+.nav-tab { padding: 7px 14px; border-radius: 100px; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; background: transparent; color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif; }
+.nav-tab.active { background: var(--green); color: var(--dark); }
+.nav-tabs.hidden { display: none; }
 
-/* ── VIEWS ── */
 .view { display: none; }
 .view.active { display: block; }
 
-/* ── SIGNUP ── */
 .signup-hero { text-align: center; padding: 36px 24px 24px; position: relative; overflow: hidden; }
 .signup-hero::before { content: ''; position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(46,196,110,0.12) 0%, transparent 70%); pointer-events: none; }
 .hero-logo { display: flex; justify-content: center; margin-bottom: 20px; animation: float 3s ease-in-out infinite; }
@@ -57,12 +58,24 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
 .plan-price sup { font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; }
 .plan-name { font-size: 10px; font-weight: 700; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
 .popular-tag { position: absolute; top: -8px; left: 50%; transform: translateX(-50%); background: var(--green); color: var(--dark); font-size: 8px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; white-space: nowrap; }
+.bin-counter { display: flex; align-items: center; justify-content: center; gap: 0; background: rgba(255,255,255,0.04); border: 1px solid rgba(46,196,110,0.25); border-radius: 14px; overflow: hidden; margin-bottom: 12px; }
+.bin-btn { background: rgba(46,196,110,0.12); border: none; color: var(--green); font-size: 24px; font-weight: 300; width: 56px; height: 60px; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; flex-shrink: 0; }
+.bin-btn:hover { background: rgba(46,196,110,0.22); }
+.bin-display { flex: 1; text-align: center; padding: 10px 0; }
+.bin-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--green); line-height: 1; letter-spacing: 1px; }
+.bin-label { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 2px; }
+.price-summary { background: rgba(46,196,110,0.07); border: 1px solid rgba(46,196,110,0.2); border-radius: 12px; padding: 12px 16px; }
+.price-line { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: rgba(255,255,255,0.8); }
+.price-line span:last-child { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--green); letter-spacing: 1px; }
+.price-note { font-size: 11px; color: #faa032; margin-top: 6px; font-weight: 600; }
+.price-note.hidden { display: none; }
 .btn-submit { width: 100%; background: var(--green); color: var(--dark); border: none; border-radius: 14px; padding: 17px; font-size: 15px; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; transition: all 0.2s; margin-top: 4px; }
 .btn-submit:hover { background: #3dd47e; transform: translateY(-1px); }
 .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 .trust-row { display: flex; justify-content: center; gap: 20px; padding: 0 16px 32px; flex-wrap: wrap; }
 .trust-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
 .trust-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
 .success-state { display: none; text-align: center; padding: 60px 24px; }
 .success-state.show { display: block; }
 .signup-form-content.hide { display: none; }
@@ -72,22 +85,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
 .success-msg { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
 .wa-notify-btn { display: inline-flex; align-items: center; gap: 10px; background: #25D366; color: #fff; border: none; border-radius: 14px; padding: 14px 24px; font-size: 14px; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; text-decoration: none; }
 
-/* ── LOCK SCREEN ── */
-.lock-screen { position: fixed; inset: 0; background: rgba(2,26,17,0.98); z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
-.lock-screen.hidden { display: none; }
-.lock-logo { margin-bottom: 20px; }
-.lock-logo svg { width: 64px; height: 64px; }
-.lock-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--green); letter-spacing: 2px; margin-bottom: 8px; text-align: center; }
-.lock-sub { font-size: 12px; color: var(--muted); margin-bottom: 24px; text-align: center; }
-.lock-input { width: 100%; max-width: 280px; background: rgba(255,255,255,0.05); border: 1px solid rgba(46,196,110,0.3); border-radius: 12px; padding: 14px 16px; font-size: 20px; font-family: 'Plus Jakarta Sans', sans-serif; color: #fff; outline: none; text-align: center; letter-spacing: 6px; margin-bottom: 12px; }
-.lock-input:focus { border-color: var(--green); }
-.btn-unlock { width: 100%; max-width: 280px; background: var(--green); color: var(--dark); border: none; border-radius: 12px; padding: 14px; font-size: 14px; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; transition: background 0.2s; }
-.btn-unlock:hover { background: #3dd47e; }
-.lock-error { font-size: 12px; color: #ff6b6b; margin-top: 8px; display: none; }
-.lock-error.show { display: block; }
-
-/* ── DASHBOARD ── */
-.dashboard { padding: 20px 16px 40px; }
+.dashboard { padding: 20px 16px; }
 .dash-header { margin-bottom: 20px; }
 .dash-title { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 2px; color: #fff; }
 .dash-title span { color: var(--green); }
@@ -103,7 +101,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
 .settings-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(46,196,110,0.25); border-radius: 12px; padding: 12px 14px; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; color: #fff; outline: none; transition: border-color 0.2s; }
 .settings-input:focus { border-color: var(--green); }
 .settings-input::placeholder { color: rgba(255,255,255,0.25); }
-.btn-save-num { background: var(--green); color: var(--dark); border: none; border-radius: 12px; padding: 12px 18px; font-size: 13px; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+.btn-save-num { background: var(--green); color: var(--dark); border: none; border-radius: 12px; padding: 12px 18px; font-size: 13px; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
 .btn-save-num:hover { background: #3dd47e; }
 .current-num { font-size: 11px; color: var(--muted); margin-top: 8px; }
 .current-num span { color: var(--green); font-weight: 600; }
@@ -113,19 +111,19 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
 .notify-section { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 18px; padding: 18px; margin-bottom: 16px; }
 .notify-msg-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(46,196,110,0.2); border-radius: 12px; padding: 12px 14px; font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.6; margin-bottom: 14px; }
 .notify-actions { display: flex; gap: 8px; }
-.btn-notify-all { flex: 1; background: #25D366; color: #fff; border: none; border-radius: 12px; padding: 13px; font-size: 13px; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: background 0.2s; }
+.btn-notify-all { flex: 1; background: #25D366; color: #fff; border: none; border-radius: 12px; padding: 13px; font-size: 13px; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: all 0.2s; }
 .btn-notify-all:hover { background: #20b558; }
-.btn-strike { background: rgba(255,160,50,0.12); color: #faa032; border: 1px solid rgba(255,160,50,0.3); border-radius: 12px; padding: 13px 14px; font-size: 12px; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; transition: background 0.2s; }
+.btn-strike { background: rgba(255,160,50,0.12); color: #faa032; border: 1px solid rgba(255,160,50,0.3); border-radius: 12px; padding: 13px 14px; font-size: 12px; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; transition: all 0.2s; }
 .btn-strike:hover { background: rgba(255,160,50,0.2); }
 
 .customers-section { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 18px; padding: 18px; }
 .customers-filter { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
 .filter-btn { padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--muted); transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
 .filter-btn.active { background: var(--green); color: var(--dark); border-color: var(--green); }
-.customer-list { display: flex; flex-direction: column; gap: 8px; max-height: 360px; overflow-y: auto; }
+.customer-list { display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto; }
 .customer-list::-webkit-scrollbar { width: 4px; }
 .customer-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-.customer-item { background: rgba(255,255,255,0.04); border: 1px solid rgba(46,196,110,0.12); border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s; }
+.customer-item { background: rgba(255,255,255,0.04); border: 1px solid rgba(46,196,110,0.12); border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; transition: all 0.2s; }
 .customer-item:hover { border-color: rgba(46,196,110,0.3); }
 .customer-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(46,196,110,0.15); border: 1.5px solid rgba(46,196,110,0.3); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--green); flex-shrink: 0; }
 .customer-info { flex: 1; min-width: 0; }
@@ -142,7 +140,18 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
 .btn-add { background: transparent; border: 1.5px dashed rgba(46,196,110,0.4); border-radius: 12px; padding: 12px; width: 100%; color: var(--green); font-size: 13px; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; margin-top: 12px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 7px; }
 .btn-add:hover { background: rgba(46,196,110,0.08); border-style: solid; }
 
-/* ── ADD CUSTOMER MODAL ── */
+.lock-screen { position: fixed; inset: 0; background: rgba(2,26,17,0.97); z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+.lock-screen.hidden { display: none; }
+.lock-logo { margin-bottom: 20px; }
+.lock-logo svg { width: 64px; height: 64px; }
+.lock-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--green); letter-spacing: 2px; margin-bottom: 8px; text-align: center; }
+.lock-sub { font-size: 12px; color: var(--muted); margin-bottom: 24px; text-align: center; }
+.lock-input { width: 100%; max-width: 280px; background: rgba(255,255,255,0.05); border: 1px solid rgba(46,196,110,0.3); border-radius: 12px; padding: 14px 16px; font-size: 16px; font-family: 'Plus Jakarta Sans', sans-serif; color: #fff; outline: none; text-align: center; letter-spacing: 3px; margin-bottom: 12px; }
+.lock-input:focus { border-color: var(--green); }
+.btn-unlock { width: 100%; max-width: 280px; background: var(--green); color: var(--dark); border: none; border-radius: 12px; padding: 14px; font-size: 14px; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; }
+.lock-error { font-size: 12px; color: #ff6b6b; margin-top: 8px; display: none; }
+.lock-error.show { display: block; }
+
 .modal-overlay { position: fixed; inset: 0; background: rgba(2,26,17,0.92); z-index: 300; display: none; align-items: flex-end; justify-content: center; backdrop-filter: blur(4px); }
 .modal-overlay.show { display: flex; }
 .modal { background: #0d3d2e; border: 1px solid var(--border); border-radius: 24px 24px 0 0; padding: 24px 20px 36px; width: 100%; max-width: 480px; animation: slideUp 0.3s ease; }
@@ -152,22 +161,13 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
 .modal-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(46,196,110,0.25); border-radius: 12px; padding: 13px 15px; font-size: 14px; color: #fff; outline: none; font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 12px; }
 .modal-input::placeholder { color: rgba(255,255,255,0.25); }
 .modal-input:focus { border-color: var(--green); }
-.plan-select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(46,196,110,0.25); border-radius: 12px; padding: 13px 15px; font-size: 14px; color: #fff; outline: none; font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 12px; appearance: none; cursor: pointer; }
-.plan-select option { background: #0d3d2e; color: #fff; }
-
-/* ── SPINNER ── */
 .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
-/* ── CUSTOMER-ONLY NAV (no tabs) ── */
-.nav-simple { display: flex; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); background: rgba(2,26,17,0.97); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════
-     LOCK SCREEN (admin only)
-══════════════════════════════════════════ -->
+<!-- LOCK SCREEN -->
 <div class="lock-screen hidden" id="lockScreen">
   <div class="lock-logo">
     <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -184,26 +184,21 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
   </div>
   <div class="lock-title">Owner Dashboard</div>
   <div class="lock-sub">Enter your PIN to access your<br>Kleanbins business dashboard</div>
-  <input class="lock-input" type="password" id="pinInput" placeholder="••••" maxlength="4">
+  <input class="lock-input" type="password" id="pinInput" placeholder="• • • •" maxlength="4">
   <button class="btn-unlock" onclick="checkPin()">Unlock Dashboard</button>
   <div class="lock-error" id="pinError">Wrong PIN. Try again.</div>
   <p style="font-size:11px;color:var(--muted);margin-top:20px;">Default PIN: 1234</p>
 </div>
 
-<!-- ══════════════════════════════════════════
-     ADD CUSTOMER MODAL
-══════════════════════════════════════════ -->
+<!-- ADD CUSTOMER MODAL -->
 <div class="modal-overlay" id="addModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title">Add Customer</div>
     <input class="modal-input" id="addName" placeholder="Full Name">
-    <input class="modal-input" id="addPhone" placeholder="WhatsApp Number (e.g. 0821234567)" type="tel">
+    <input class="modal-input" id="addPhone" placeholder="WhatsApp Number (e.g. 0821234567)">
     <input class="modal-input" id="addAddress" placeholder="House Number & Street (e.g. 14 Maple St)">
-    <select class="plan-select" id="addPlan">
-      <option value="monthly">Monthly — R60/mo</option>
-      <option value="oncoff">Once-off — R80</option>
-    </select>
+    <input class="modal-input" id="addBins" placeholder="Number of bins (default: 1)" type="number" min="1" max="20">
     <div style="display:flex;gap:8px;">
       <button onclick="closeModal()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Cancel</button>
       <button id="addModalBtn" onclick="addCustomerFromModal()" style="flex:2;background:var(--green);border:none;border-radius:12px;padding:13px;font-size:13px;font-weight:800;color:var(--dark);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Add Customer</button>
@@ -211,10 +206,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     CUSTOMER-ONLY NAV (no dashboard tab)
-══════════════════════════════════════════ -->
-<nav class="nav-simple" id="customerNav">
+<!-- NAV -->
+<nav class="nav">
   <div class="nav-logo">
     <div class="logo-mark">
       <svg viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -233,12 +226,13 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
       <span class="word-bins">bins</span>
     </div>
   </div>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" id="tabSignup" onclick="switchView('signup', this)">Sign Up</button>
+    <button class="nav-tab" id="tabDash" onclick="switchView('dashboard', this)">Dashboard</button>
+  </div>
 </nav>
 
-
-<!-- ══════════════════════════════════════════
-     SIGNUP VIEW (customers only)
-══════════════════════════════════════════ -->
+<!-- SIGNUP VIEW -->
 <div class="view active" id="view-signup">
   <div class="signup-form-content" id="signupFormContent">
     <div class="signup-hero">
@@ -279,22 +273,21 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">Choose Your Plan</label>
-        <div class="plan-options">
-          <label class="plan-option selected" id="plan-monthly" onclick="selectPlan('monthly')">
-            <div class="popular-tag">Most popular</div>
-            <input type="radio" name="plan" value="monthly" checked>
-            <div class="plan-price"><sup>R</sup>60</div>
-            <div class="plan-name">Monthly</div>
-          </label>
-          <label class="plan-option" id="plan-oncoff" onclick="selectPlan('oncoff')">
-            <input type="radio" name="plan" value="oncoff">
-            <div class="plan-price"><sup>R</sup>80</div>
-            <div class="plan-name">Once-off</div>
-          </label>
+        <label class="form-label">How Many Bins?</label>
+        <div class="bin-counter">
+          <button type="button" class="bin-btn" onclick="changeBins(-1)">−</button>
+          <div class="bin-display">
+            <div class="bin-num" id="binCount">1</div>
+            <div class="bin-label">bin</div>
+          </div>
+          <button type="button" class="bin-btn" onclick="changeBins(1)">+</button>
+        </div>
+        <div class="price-summary" id="priceSummary">
+          <div class="price-line"><span>1 bin × R60</span><span id="priceTotal">R60/month</span></div>
+          <div class="price-note" id="priceNote"></div>
         </div>
       </div>
-      <button class="btn-submit" id="signupBtn" onclick="submitSignup()">Register My Bin ✓</button>
+      <button class="btn-submit" id="signupBtn" onclick="submitSignup()">Register My Bins ✓</button>
     </div>
 
     <div class="trust-row">
@@ -316,9 +309,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     DASHBOARD VIEW (admin only)
-══════════════════════════════════════════ -->
+<!-- DASHBOARD VIEW -->
 <div class="view" id="view-dashboard">
   <div class="dashboard">
     <div class="dash-header">
@@ -332,7 +323,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
       </div>
       <div class="stat-card">
         <div class="stat-num" id="statMonthly">0</div>
-        <div class="stat-label">Monthly</div>
+        <div class="stat-label">Total Bins</div>
       </div>
       <div class="stat-card">
         <div class="stat-num" id="statRevenue">R0</div>
@@ -346,7 +337,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
         <input class="settings-input" id="waNumberInput" placeholder="e.g. 0615861499" type="tel">
         <button class="btn-save-num" onclick="saveOwnerNumber()">Save</button>
       </div>
-      <div class="current-num">Current number: <span id="currentNumDisplay">loading...</span></div>
+      <div class="current-num">Current number: <span id="currentNumDisplay"></span></div>
       <div class="save-toast" id="saveToast">✓ Number saved successfully!</div>
     </div>
 
@@ -366,8 +357,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
       <div class="section-heading">Customers</div>
       <div class="customers-filter">
         <button class="filter-btn active" onclick="filterCustomers('all', this)">All</button>
-        <button class="filter-btn" onclick="filterCustomers('monthly', this)">Monthly</button>
-        <button class="filter-btn" onclick="filterCustomers('oncoff', this)">Once-off</button>
+        <button class="filter-btn" onclick="filterCustomers('bulk', this)">Bulk (4+)</button>
       </div>
       <div class="customer-list" id="customerList"><div class="empty-state"><p>Loading customers...</p></div></div>
       <button class="btn-add" onclick="openModal()">+ Add Customer Manually</button>
@@ -375,69 +365,83 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     FIREBASE + APP LOGIC
-══════════════════════════════════════════ -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<!-- Firebase SDKs (compat version — works with regular scripts, no module scope issues) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
 
+// ── PASTE YOUR FIREBASE CONFIG HERE ──────────────────────────────────────────
+// Get this from Firebase Console → Project Settings → Your Apps → Config
 const firebaseConfig = {
   apiKey: "AIzaSyAEjHaA2kVjrNWo_Shq3bUBxpvkmh7ZgMY",
   authDomain: "kleanbins.firebaseapp.com",
   projectId: "kleanbins",
   storageBucket: "kleanbins.firebasestorage.app",
   messagingSenderId: "277040961444",
-  appId: "1:277040961444:web:fa25a0f63b30db0a0e5331"
+  appId: "1:277040961444:web:fa25a0f63b30db0a0e5331",
+  measurementId: "G-8VFRT66WSY"
 };
+// ─────────────────────────────────────────────────────────────────────────────
 
-const fbApp = initializeApp(firebaseConfig);
-const db = getFirestore(fbApp);
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-// ─── constants ───────────────────────────────────────────────────
-const PIN = '1978';
+const PIN = '1234';
 const DEFAULT_NUMBER = '27615861499';
-const OWNER_KEY = 'kleanbins_owner_number';
-
-// ─── is this the admin URL? ───────────────────────────────────────
-// Access dashboard by visiting: yoursite.html?learnmorenetsaiAdmin
-const isAdmin = window.location.search.includes('learnmorenetsaiAdmin');
 
 let customers = [];
 let currentFilter = 'all';
 
-// ─── expose functions to global scope for onclick handlers ────────
-window.checkPin = checkPin;
-window.selectPlan = selectPlan;
-window.submitSignup = submitSignup;
-window.saveOwnerNumber = saveOwnerNumber;
-window.notifyAll = notifyAll;
-window.notifyStrike = notifyStrike;
-window.filterCustomers = filterCustomers;
-window.openModal = openModal;
-window.closeModal = closeModal;
-window.addCustomerFromModal = addCustomerFromModal;
-
-// ─── init ─────────────────────────────────────────────────────────
-async function init() {
-  if (isAdmin) {
-    // Add owner badge to the single nav
-    const badge = document.createElement('div');
-    badge.className = 'admin-badge';
-    badge.textContent = 'Owner Dashboard';
-    document.getElementById('customerNav').appendChild(badge);
-    // Show dashboard, lock screen on top
-    document.getElementById('view-signup').classList.remove('active');
-    document.getElementById('view-dashboard').classList.add('active');
-    document.getElementById('lockScreen').classList.remove('hidden');
-  } else {
-    // Pure customer mode — only signup visible
-    document.getElementById('view-signup').classList.add('active');
+// ── Firebase helpers ──────────────────────────────────────────────────────────
+async function loadCustomers() {
+  try {
+    const snap = await db.collection('customers').orderBy('timestamp', 'desc').get();
+    customers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch (e) {
+    console.error('Failed to load customers:', e);
+    customers = [];
   }
 }
+
+async function saveCustomer(customer) {
+  const docRef = await db.collection('customers').add({
+    ...customer,
+    timestamp: Date.now()
+  });
+  return docRef.id;
+}
+
+async function loadOwnerNumber() {
+  try {
+    const snap = await db.collection('settings').doc('owner').get();
+    return snap.exists ? snap.data().phone : DEFAULT_NUMBER;
+  } catch (e) {
+    return DEFAULT_NUMBER;
+  }
+}
+
+async function persistOwnerNumber(num) {
+  await db.collection('settings').doc('owner').set({ phone: num });
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+const isAdmin = window.location.search.includes('learnmorenetsaiAdmin');
+
+async function init() {
+  changeBins(0); // init price display
+  if (isAdmin) {
+    document.getElementById('navTabs').classList.remove('hidden');
+    document.getElementById('view-signup').classList.remove('active');
+    document.getElementById('view-dashboard').classList.add('active');
+    document.getElementById('tabDash').classList.add('active');
+    document.getElementById('tabSignup').classList.remove('active');
+    document.getElementById('lockScreen').classList.remove('hidden');
+  }
+}
+
 init();
 
-// ─── helpers ─────────────────────────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────────────────────
 function toIntlFormat(num) {
   const digits = num.replace(/\D/g, '');
   if (digits.startsWith('0')) return '27' + digits.slice(1);
@@ -446,146 +450,138 @@ function toIntlFormat(num) {
 }
 
 function getInitials(name) {
-  return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+  return name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
 }
 
-// ─── firebase helpers ─────────────────────────────────────────────
-async function loadCustomers() {
-  try {
-    const snapshot = await getDocs(collection(db, 'customers'));
-    customers = [];
-    snapshot.forEach(d => customers.push({ id: d.id, ...d.data() }));
-  } catch (e) {
-    console.error('Firestore load error:', e);
-    customers = [];
-  }
-}
-
-async function saveCustomer(customer) {
-  try {
-    await setDoc(doc(db, 'customers', customer.id.toString()), customer);
-  } catch (e) {
-    console.error('Firestore save error:', e);
-  }
-}
-
-// ─── owner number ────────────────────────────────────────────────
-async function loadOwnerNumber() {
-  try {
-    const result = await window.storage.get(OWNER_KEY);
-    return result ? result.value : DEFAULT_NUMBER;
-  } catch {
-    return localStorage.getItem(OWNER_KEY) || DEFAULT_NUMBER;
-  }
-}
-
-async function persistOwnerNumber(num) {
-  try {
-    await window.storage.set(OWNER_KEY, num);
-  } catch {
-    localStorage.setItem(OWNER_KEY, num);
-  }
-}
-
-async function updateCurrentNumDisplay() {
-  const num = await loadOwnerNumber();
-  const friendly = num.startsWith('27') ? '0' + num.slice(2) : num;
-  document.getElementById('currentNumDisplay').textContent = friendly;
-}
-
-// ─── PIN unlock ───────────────────────────────────────────────────
+// ── PIN ───────────────────────────────────────────────────────────────────────
 async function checkPin() {
   const val = document.getElementById('pinInput').value;
   if (val === PIN) {
     document.getElementById('lockScreen').classList.add('hidden');
+    document.getElementById('customerList').innerHTML = '<div class="empty-state"><p>Loading customers...</p></div>';
     await renderDashboard();
   } else {
     document.getElementById('pinError').classList.add('show');
     document.getElementById('pinInput').value = '';
   }
 }
-document.getElementById('pinInput').addEventListener('keypress', e => {
-  if (e.key === 'Enter') checkPin();
-});
+document.getElementById('pinInput').addEventListener('keypress', e => { if (e.key === 'Enter') checkPin(); });
 
-// ─── plan select ─────────────────────────────────────────────────
-function selectPlan(plan) {
-  document.getElementById('plan-monthly').classList.remove('selected');
-  document.getElementById('plan-oncoff').classList.remove('selected');
-  document.getElementById('plan-' + plan).classList.add('selected');
+// ── View switch ───────────────────────────────────────────────────────────────
+function switchView(view, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  btn.classList.add('active');
+  if (view === 'dashboard') {
+    document.getElementById('lockScreen').classList.remove('hidden');
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinError').classList.remove('show');
+  }
 }
 
-// ─── signup ───────────────────────────────────────────────────────
-async function submitSignup() {
-  const name    = document.getElementById('cusName').value.trim();
-  const phone   = document.getElementById('cusPhone').value.trim();
-  const house   = document.getElementById('cusHouse').value.trim();
-  const street  = document.getElementById('cusStreet').value.trim();
-  const plan    = document.querySelector('input[name="plan"]:checked')?.value || 'monthly';
-  if (!name || !phone || !house || !street) {
-    alert('Please fill in all fields to register.');
-    return;
+// ── Bin counter ───────────────────────────────────────────────────────────────
+let binCount = 1;
+
+function changeBins(delta) {
+  binCount = Math.max(1, Math.min(20, binCount + delta));
+  const ratePerBin = binCount >= 4 ? 50 : 60;
+  const total = binCount * ratePerBin;
+  const label = binCount === 1 ? 'bin' : 'bins';
+
+  document.getElementById('binCount').textContent = binCount;
+  document.querySelector('.bin-label').textContent = label;
+  document.querySelector('.price-line').innerHTML =
+    `<span>${binCount} ${label} × R${ratePerBin}</span><span id="priceTotal">R${total}/month</span>`;
+
+  const note = document.getElementById('priceNote');
+  if (binCount >= 4) {
+    note.textContent = '🎉 Bulk special applied — R50 per bin!';
+    note.classList.remove('hidden');
+  } else {
+    note.textContent = 'Add ' + (4 - binCount) + ' more bin' + (4 - binCount === 1 ? '' : 's') + ' to unlock R50/bin bulk rate';
+    note.classList.remove('hidden');
   }
+}
+
+// ── Signup ────────────────────────────────────────────────────────────────────
+async function submitSignup() {
+  const name = document.getElementById('cusName').value.trim();
+  const phone = document.getElementById('cusPhone').value.trim();
+  const house = document.getElementById('cusHouse').value.trim();
+  const street = document.getElementById('cusStreet').value.trim();
+  const bins = binCount || 1;
+  const ratePerBin = bins >= 4 ? 50 : 60;
+  const totalMonthly = bins * ratePerBin;
+  if (!name || !phone || !house || !street) { alert('Please fill in all fields to register.'); return; }
 
   const btn = document.getElementById('signupBtn');
   btn.disabled = true;
   btn.innerHTML = '<span class="loading-spinner"></span>Saving...';
 
-  const customer = {
-    id: Date.now().toString(),
-    name,
-    phone: phone.replace(/\D/g, ''),
-    address: house + ' ' + street,
-    plan,
-    date: new Date().toLocaleDateString('en-ZA')
-  };
+  try {
+    const customer = {
+      name,
+      phone: phone.replace(/\D/g,''),
+      address: house + ' ' + street,
+      bins,
+      ratePerBin,
+      totalMonthly,
+      date: new Date().toLocaleDateString('en-ZA')
+    };
+    await saveCustomer(customer);
 
-  await saveCustomer(customer);
+    document.getElementById('signupFormContent').classList.add('hide');
+    document.getElementById('successState').classList.add('show');
+    document.getElementById('successMsg').textContent = `Thanks ${name}! You're on the list at ${customer.address}. ${bins} bin${bins > 1 ? 's' : ''} @ R${totalMonthly}/month. We'll WhatsApp you every time they're cleaned! 🎉`;
 
-  document.getElementById('signupFormContent').classList.add('hide');
-  document.getElementById('successState').classList.add('show');
-  document.getElementById('successMsg').textContent =
-    `Thanks ${name}! You've been added to the Kleanbins list at ${customer.address}. We'll notify you on WhatsApp every time your bin is cleaned. 🎉`;
-
-  const ownerNum = await loadOwnerNumber();
-  const msg = encodeURIComponent(
-    `Hi Kleanbins! I just signed up. My name is ${name}, I'm at ${customer.address}. I chose the ${plan === 'monthly' ? 'monthly (R60)' : 'once-off (R80)'} plan.`
-  );
-  document.getElementById('waConfirmLink').href = `https://wa.me/${ownerNum}?text=${msg}`;
+    const ownerNum = await loadOwnerNumber();
+    const msg = encodeURIComponent(`Hi Kleanbins! I just signed up. My name is ${name}, I'm at ${customer.address}. I have ${bins} bin${bins > 1 ? 's' : ''} — R${totalMonthly}/month.`);
+    document.getElementById('waConfirmLink').href = `https://wa.me/${ownerNum}?text=${msg}`;
+  } catch (e) {
+    alert('Something went wrong saving your signup. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = 'Register My Bin ✓';
+  }
 }
 
-// ─── save owner number ───────────────────────────────────────────
+// ── Owner number ──────────────────────────────────────────────────────────────
 async function saveOwnerNumber() {
   const raw = document.getElementById('waNumberInput').value.trim();
   if (!raw) { alert('Please enter a number first.'); return; }
-  await persistOwnerNumber(toIntlFormat(raw));
-  updateCurrentNumDisplay();
+  const intl = toIntlFormat(raw);
+  await persistOwnerNumber(intl);
+  await updateCurrentNumDisplay();
   document.getElementById('waNumberInput').value = '';
   const toast = document.getElementById('saveToast');
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-// ─── notify ──────────────────────────────────────────────────────
-async function notifyAll() {
-  const list = currentFilter === 'all' ? customers : customers.filter(c => c.plan === currentFilter);
+async function updateCurrentNumDisplay() {
+  const num = await loadOwnerNumber();
+  const friendly = '0' + num.slice(2);
+  document.getElementById('currentNumDisplay').textContent = friendly;
+}
+
+// ── Notify ────────────────────────────────────────────────────────────────────
+function notifyAll() {
+  const list = currentFilter === 'all' ? customers : customers.filter(c => (c.bins || 1) >= 4);
   if (list.length === 0) { alert('No customers to notify.'); return; }
   const c = list[0];
   const msg = encodeURIComponent(`✅ Hi ${c.name}! Your bin at ${c.address} has just been cleaned and sanitised by Kleanbins. Have a fresh day! 🗑️✨`);
   window.open(`https://wa.me/${toIntlFormat(c.phone)}?text=${msg}`, '_blank');
-  if (list.length > 1) alert(`WhatsApp opened for ${c.name}. Tap the green button next to each customer to message them individually. ${list.length} customers total.`);
+  if (list.length > 1) alert(`WhatsApp opened for ${c.name}. Tap the green ✅ button next to each customer to notify them one by one. ${list.length} customers total.`);
 }
 
-async function notifyStrike() {
+function notifyStrike() {
   if (customers.length === 0) { alert('No customers to notify.'); return; }
   const c = customers[0];
-  const msg = encodeURIComponent(
-    `Hi ${c.name}! Unfortunately due to the municipal workers' strike, we were unable to clean today. We'll be back as soon as collection resumes — no charge for this week. Sorry for the inconvenience! 🙏 — Kleanbins`
-  );
+  const msg = encodeURIComponent(`Hi ${c.name}! Unfortunately due to the municipal workers' strike, we were unable to clean today. We'll be back as soon as collection resumes — no charge for this week. Sorry for the inconvenience! 🙏 — Kleanbins`);
   window.open(`https://wa.me/${toIntlFormat(c.phone)}?text=${msg}`, '_blank');
 }
 
-// ─── filter ──────────────────────────────────────────────────────
+// ── Filter ────────────────────────────────────────────────────────────────────
 function filterCustomers(filter, btn) {
   currentFilter = filter;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -593,22 +589,22 @@ function filterCustomers(filter, btn) {
   renderCustomerList();
 }
 
-// ─── render dashboard ────────────────────────────────────────────
+// ── Render ────────────────────────────────────────────────────────────────────
 async function renderDashboard() {
   await loadCustomers();
   const monthly = customers.filter(c => c.plan === 'monthly');
   document.getElementById('statTotal').textContent = customers.length;
-  document.getElementById('statMonthly').textContent = monthly.length;
-  document.getElementById('statRevenue').textContent = 'R' + (monthly.length * 60);
-  document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-ZA', {
-    weekday: 'long', day: 'numeric', month: 'long'
-  });
+  const totalBins = customers.reduce((s, c) => s + (c.bins || 1), 0);
+  document.getElementById('statMonthly').textContent = totalBins;
+  const totalRevenue = customers.reduce((s, c) => s + (c.totalMonthly || 60), 0);
+  document.getElementById('statRevenue').textContent = 'R' + totalRevenue;
+  document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-ZA', { weekday:'long', day:'numeric', month:'long' });
   await updateCurrentNumDisplay();
   renderCustomerList();
 }
 
 function renderCustomerList() {
-  const list = currentFilter === 'all' ? customers : customers.filter(c => c.plan === currentFilter);
+  const list = currentFilter === 'all' ? customers : customers.filter(c => (c.bins || 1) >= 4);
   const container = document.getElementById('customerList');
   if (list.length === 0) {
     container.innerHTML = `<div class="empty-state"><p>No customers yet.<br>Share the sign-up page to get started!</p></div>`;
@@ -621,10 +617,10 @@ function renderCustomerList() {
       <div class="customer-avatar">${getInitials(c.name)}</div>
       <div class="customer-info">
         <div class="customer-name">${c.name}</div>
-        <div class="customer-address">📍 ${c.address} · ${c.date || ''}</div>
+        <div class="customer-address">📍 ${c.address}</div>
       </div>
       <div class="customer-right">
-        <span class="plan-badge ${c.plan === 'monthly' ? 'badge-monthly' : 'badge-oncoff'}">${c.plan === 'monthly' ? 'R60/mo' : 'Once-off'}</span>
+        <span class="plan-badge badge-monthly">${c.bins || 1} bin${(c.bins||1)>1?'s':''} · R${c.totalMonthly || 60}/mo</span>
         <a class="wa-icon-btn" href="https://wa.me/${waNum}?text=${msg}" target="_blank">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         </a>
@@ -633,41 +629,46 @@ function renderCustomerList() {
   }).join('');
 }
 
-// ─── modal ───────────────────────────────────────────────────────
+// ── Modal ─────────────────────────────────────────────────────────────────────
 function openModal() { document.getElementById('addModal').classList.add('show'); }
 function closeModal() { document.getElementById('addModal').classList.remove('show'); }
 
 async function addCustomerFromModal() {
-  const name    = document.getElementById('addName').value.trim();
-  const phone   = document.getElementById('addPhone').value.trim();
+  const name = document.getElementById('addName').value.trim();
+  const phone = document.getElementById('addPhone').value.trim();
   const address = document.getElementById('addAddress').value.trim();
-  const plan    = document.getElementById('addPlan').value;
   if (!name || !phone || !address) { alert('Please fill all fields.'); return; }
 
   const btn = document.getElementById('addModalBtn');
   btn.textContent = 'Saving...';
   btn.disabled = true;
 
-  const newCustomer = {
-    id: Date.now().toString(),
-    name,
-    phone: phone.replace(/\D/g, ''),
-    address,
-    plan,
-    date: new Date().toLocaleDateString('en-ZA')
-  };
+  try {
+    const mBins = parseInt(document.getElementById('addBins').value) || 1;
+    const mRate = mBins >= 4 ? 50 : 60;
+    await saveCustomer({
+      name,
+      phone: phone.replace(/\D/g,''),
+      address,
+      bins: mBins,
+      ratePerBin: mRate,
+      totalMonthly: mBins * mRate,
+      date: new Date().toLocaleDateString('en-ZA')
+    });
+    closeModal();
+    await renderDashboard();
+    document.getElementById('addName').value = '';
+    document.getElementById('addPhone').value = '';
+    document.getElementById('addAddress').value = '';
+    document.getElementById('addBins').value = '';
+  } catch(e) {
+    alert('Failed to save customer. Please try again.');
+  }
 
-  await saveCustomer(newCustomer);
-  closeModal();
-  await renderDashboard();
-
-  document.getElementById('addName').value = '';
-  document.getElementById('addPhone').value = '';
-  document.getElementById('addAddress').value = '';
-  document.getElementById('addPlan').value = 'monthly';
   btn.textContent = 'Add Customer';
   btn.disabled = false;
 }
+
 </script>
 </body>
 </html>
