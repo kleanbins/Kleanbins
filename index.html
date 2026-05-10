@@ -187,7 +187,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
   <input class="lock-input" type="password" id="pinInput" placeholder="• • • •" maxlength="4">
   <button class="btn-unlock" onclick="checkPin()">Unlock Dashboard</button>
   <div class="lock-error" id="pinError">Wrong PIN. Try again.</div>
-  <p style="font-size:11px;color:var(--muted);margin-top:20px;">Default PIN: 1234</p>
+  
 </div>
 
 <!-- ADD CUSTOMER MODAL -->
@@ -226,7 +226,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: #021a11; min-he
       <span class="word-bins">bins</span>
     </div>
   </div>
-  <div class="nav-tabs" id="navTabs">
+  <div class="nav-tabs hidden" id="navTabs">
     <button class="nav-tab active" id="tabSignup" onclick="switchView('signup', this)">Sign Up</button>
     <button class="nav-tab" id="tabDash" onclick="switchView('dashboard', this)">Dashboard</button>
   </div>
@@ -386,7 +386,7 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const PIN = '1234';
+const PIN = '1978';
 const DEFAULT_NUMBER = '27615861499';
 
 let customers = [];
